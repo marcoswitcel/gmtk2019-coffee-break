@@ -130,37 +130,48 @@ window.cupManager = (function () {
         return false;
     }
 
-    function init(wave){
+    function generateObjects(wave){
         //var wave = new GameWave(1, 5);
+        if (wave.getSize() == 0) {
+            return [];
+        }
         var obj;
         var generated = 0;
-        var belt = [];
+        var list = [];
         var max, min, ration;
         while (generated < wave.getSize()) {
             max = generateMaxVol(wave.getMaxVolVar());
             min = generateMinVol(max, wave.getMinVolVar());
-            ratio = generateType(wave.getCupRatio());
-            console.log(ratio);
-            obj = new GameObject(generated, min , max, ratio);
-            belt.push(obj);
+            type = generateType(wave.getCupRatio());
+            var sprite = new Entity.Sprite({
+                src: '',
+                color: '#00ff00'
+            });
+            var obj = new Entity.Object({
+                sprite : sprite,
+                id: generated,
+                x : 50 + (generated * 300) - wave.getSize() * 300,
+                y : 500,
+                width : 40,
+                height : 50,
+                volMin: min,
+                volMax: max,
+                currVol: 0,
+                fillable: type
+            });
+            list.push(obj);
             generated++;
         }
-        console.log("- Generated: " + belt.length);
-        for (var obj of belt) {
-            console.log("Recipiente enchível? " + obj.isFillable());
-            console.log("Tamanho do recip.: " + obj.getMaxVol());
-            console.log("Preenchimento mínimo:" + obj.getMinVol());
-            console.log("=====");
-        }
+        return list;
     }
 
     function runTest(){
         var wave = new GameWave(1, 15, 0.6, 0.8, 0.1);
-        init(wave);
+        generateObjects(wave);
     }
 
     return {
-        init:init,
+        generateObjects:generateObjects,
         runTest:runTest
     }
 })();

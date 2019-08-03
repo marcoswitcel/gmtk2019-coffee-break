@@ -15,36 +15,22 @@ var SceneManager = (function scope() {
     var gameScene = function() {
 
         if (!SCENE_CONTEXT) {
+
+
+
+            var wave = new GameWave(1, 15, 0.6, 0.8, 0.1);
+            var list = window.cupManager.generateObjects(wave);
+
             SCENE_CONTEXT = {
-                
+                cupList: list
             };
-
-
         }
 
         GameRenderer.clearRect('#FFF');
 
-        var sprite = new Entity.Sprite({
-            src: '',
-            color: '#00ff00'
-        });
-        var obj = new Entity.Object({
-            sprite : sprite,
-            
-            x : 50,
-            y : 100,
-            width : 200,
-            height : 200,
+       
 
-    
-            volMin: 20,
-            volMax: 100,
-            currVol: 0,
-    
-            fillable: true
-        });
-
-        GameRenderer.drawnEntity(obj);
+        GameRenderer.drawnEntities(SCENE_CONTEXT.cupList);
 
         setTimeout(gameScene, 1000/60);
     };
@@ -59,7 +45,7 @@ var SceneManager = (function scope() {
             GameRenderer.clearRect('#00ff00')
 
             LoadManager.loadAllAssets({
-                    assetsResources: ["../assets/teste1","../assets/teste"]
+                    assetsResources: ["assets/teste2.png","assets/teste.jpg"]
                 },
                 SceneManager.menu
             );
@@ -96,7 +82,11 @@ var Entity = (function scope() {
         this.fillable = obj.fillable;
     };
     
-    //ObjectEntity.prototype.
+    Object.prototype.update = function() {
+        if (window.isRunning) {
+            this.x += 5;
+        }
+    }
 
 
     return {
