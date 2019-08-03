@@ -6,7 +6,7 @@ var LoadManager = (function() {
 		loadAllAssets: function(jason, callback) {
 			setTimeout(function() {
 				callback();
-			}, 2000);
+			}, 1000);
 		}
 	};
 })()
