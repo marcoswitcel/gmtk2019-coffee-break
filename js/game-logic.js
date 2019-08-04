@@ -101,16 +101,18 @@ window.cupManager = (function() {
             min = generateMinVol(max, wave.getMinVolVar());
             type = generateType(wave.getCupRatio());
             var sprite = new Entity.Sprite({
-                src: '',
+                resource: LoadManager.getAsset(
+                    (type) ? 'xicara3' : 'sapatenis'
+                ),
                 color: '#00ff00'
             });
             var obj = new Entity.Object({
                 sprite: sprite,
                 id: generated,
-                x: 50 + (generated * 300) - wave.getSize() * 300,
-                y: 500,
-                width: 40,
-                height: 50,
+                x: generated * -300,
+                y: CONFIG.height * 0.87,
+                width: type ? 40 : 40*2.169811320754717,
+                height: type ? 50 : 40,
                 volMin: min,
                 volMax: max,
                 currVol: 0,
@@ -190,7 +192,16 @@ window.pathManager = (function() {
 
 var GameLogic = (function() {
     var checkIfNeedMoreCupsAndGiveIt = function checkIfNeedMoreCupsAndGiveIt(list) {
-        
+        var lastItem = list[list.length -1];
+
+        if (lastItem.x > -150) {
+            var wave = new GameWave(1, 5, 0.6, 0.8, 0.1);
+            var lista = window.cupManager.generateObjects(wave);
+            for(var i = 0; i < lista.length; i++) {
+                list.push(lista[i]);
+            }
+            
+        }
     };
     return {
         checkIfNeedMoreCupsAndGiveIt: checkIfNeedMoreCupsAndGiveIt

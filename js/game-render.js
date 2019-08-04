@@ -1,15 +1,21 @@
 var GameRenderer = (function scope() {
 
     var drawEntity = function(obj) {
-        obj.update();
-        CTX.fillStyle = obj.sprite.color;
-        CTX.fillRect(obj.x, obj.y, obj.width, obj.height);
-    };
-
-    var drawButton = function(btn) {
-        btn.update();
-        CTX.fillStyle = btn.color;
-        CTX.fillRect(btn.x, btn.y, btn.width, btn.height);
+        if (obj.update) {
+            obj.update();
+        }
+        if (obj.sprite.resource) {
+            drawImage({
+                image: obj.sprite.resource,
+                xStart: obj.x - obj.width/2,
+                yStart: obj.y - obj.height/2,
+                width: obj.width,
+                height: obj.height
+            })
+        } else {
+            CTX.fillStyle = obj.sprite.color;
+            CTX.fillRect(obj.x, obj.y, obj.width, obj.height);
+        }
     };
 
     var drawEntities = function(lista) {
@@ -18,22 +24,44 @@ var GameRenderer = (function scope() {
         }
     };
 
+    var drawRect = function drawRect(obj) {
+        CTX.fillStyle = obj.color;
+        CTX.fillRect(obj.xStart, obj.yStart, obj.width, obj.height);
+    };
+
+    var drawImageBackground = function drawImageBackground(ref, obj) {
+        CTX.drawImage(ref, 0, 0, CONFIG.width, CONFIG.height);
+    };
+
+    var drawImage = function drawImage(obj) {
+        CTX.drawImage(obj.image, obj.xStart, obj.yStart, obj.width, obj.height);
+    };
+
+    var drawText = function drawText(text, x, y, fontSize) {
+        fontSize = typeof fontSize !== 'undefined' ? fontSize : 24;
+        CTX.fillStyle ="#FFF"
+        CTX.font = fontSize+"px Arial";
+        CTX.fillText(text, x, y);
+    };
+
+    var clearRect = function clearRect(color) {
+        color = color ? color : '#00ff00';
+        drawRect({
+            color: color,
+            xStart: 0,
+            yStart: 0,
+            width: CONFIG.width,
+            height: CONFIG.height
+        });
+    }
 
     return {
-        renderScene: function(sceneStartFunction) {
-            sceneStartFunction();
-        },
-        clearRect: function(color) {
-            color = color ? color : '#00ff00';
-            CTX.fillStyle = color;
-            CTX.fillRect(0, 0, 800, 600);
-        },
-        drawImage: function (ref, obj) {
-           
-            CTX.drawImage(ref, 0, 0, 800, 600);            
-        }, 
+        clearRect: clearRect,
+        drawRect: drawRect,
+        drawImageBackground: drawImageBackground,
+        drawImage: drawImage, 
         drawEntity: drawEntity,
         drawEntities: drawEntities,
-        drawButton: drawButton
+        drawText: drawText
     }
 })();
