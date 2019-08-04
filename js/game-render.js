@@ -39,10 +39,10 @@ var GameRenderer = (function scope() {
         CTX.drawImage(obj.image, obj.xStart, obj.yStart, obj.width, obj.height);
     };
 
-    var drawText = function drawText(text, x, y, fontSize, color) {
+    var drawText = function drawText(text, x, y, fontSize, color, fontFamily) {
         fontSize = typeof fontSize !== 'undefined' ? fontSize : 24;
         CTX.fillStyle = color ? color : "#FFF";
-        CTX.font = fontSize + "px PixelOperator";
+        CTX.font = fontSize + "px "  + ((typeof fontFamily == "undefined") ? "PixelOperator" : fontFamily);
         CTX.fillText(text, x, y);
     };
 
