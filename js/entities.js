@@ -103,7 +103,7 @@ var Entity = (function scope() {
         }
         if (this.fillable){
             if (Math.abs(CONFIG.width*0.48 - this.x) < 15) {
-                console.log('acertou miseravi')
+                // SceneManager.changeScene('GAME_OVER');
             }
             if (!this._counted) {
                 if (this.x > CONFIG.width*0.51) {

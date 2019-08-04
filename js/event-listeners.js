@@ -12,9 +12,9 @@ var Event = (function scope() {
         }
     }
     function triggerClick(event) {
-        if (SceneManager.getScene() === 'MENU') {
-            MOUSE.clicked = true;
-        }
+        
+        MOUSE.clicked = true;
+        
         var x = event.clientX;
         var y = event.clientY;
         if ((x >= 268 && x <= 363) && (y >= 0 && y <= 100)) {
@@ -37,6 +37,9 @@ var Event = (function scope() {
             clicked: MOUSE.clicked
         }
     };
+    var resetClick = function resetClick() {
+        MOUSE.clicked = false;
+    };
 
     window.addEventListener('keydown', triggerKeydown);
     window.addEventListener('keyup', triggerKeyUp);
@@ -44,6 +47,7 @@ var Event = (function scope() {
     document.querySelector("#canvas").addEventListener('mousemove', mousePos);
 
     return {
-        getMousePos: getMousePos
+        getMousePos: getMousePos,
+        resetClick: resetClick
     }
 })();
