@@ -1,4 +1,3 @@
-
 window.GameWave = function(id, size, cupRatio, maxVolVar, minVolVar) {
     id = id ? id : 0;
     size = size ? size : 5;
@@ -94,7 +93,7 @@ window.cupManager = (function() {
             'xicara3',
             'xicara4',
             'cuia'
-        ][Math.floor(Math.random()*5)]
+        ][Math.floor(Math.random() * 5)]
     };
 
     function generateObjects(wave) {
@@ -121,7 +120,7 @@ window.cupManager = (function() {
                 id: generated,
                 x: generated * -300,
                 y: CONFIG.height * 0.87,
-                width: type ? 40 : 40*2.169811320754717,
+                width: type ? 40 : 40 * 2.169811320754717,
                 height: type ? 50 : 40,
                 /* função que define a aleatoriedade dos volumes */
                 volMin: 35 + (Math.random() * 50),
@@ -202,13 +201,24 @@ window.pathManager = (function() {
 
 
 var GameLogic = (function() {
+
+    var randomCupSprite = function() {
+        return [
+            'xicara1',
+            'xicara2',
+            'xicara3',
+            'xicara4',
+            'cuia'
+        ][Math.floor(Math.random() * 5)]
+    };
+
     var checkIfNeedMoreCupsAndGiveIt = function checkIfNeedMoreCupsAndGiveIt(list) {
-        var lastItem = list[list.length -1];
+        var lastItem = list[list.length - 1];
 
         if (lastItem.x > -150) {
             var wave = new GameWave(1, 5, 0.8, 0.8, 0.1);
             var lista = window.cupManager.generateObjects(wave);
-            for(var i = 0; i < lista.length; i++) {
+            for (var i = 0; i < lista.length; i++) {
                 var sprite = new Entity.Sprite({
                     resource: LoadManager.getAsset(
                         (type) ? randomCupSprite() : 'sapatenis'
@@ -217,10 +227,10 @@ var GameLogic = (function() {
                 });
                 var obj = new Entity.Object({
                     sprite: sprite,
-                    id: generated,
-                    x: generated * -300,
+                    id: i,
+                    x: i * -300,
                     y: CONFIG.height * 0.87,
-                    width: type ? 40 : 40*2.169811320754717,
+                    width: type ? 40 : 40 * 2.169811320754717,
                     height: type ? 50 : 40,
                     /* função que define a aleatoriedade dos volumes */
                     volMin: 35 + (Math.random() * 50),
@@ -230,7 +240,7 @@ var GameLogic = (function() {
                 });
                 list.push(obj);
             }
-            
+
         }
     };
     return {

@@ -64,8 +64,8 @@ var SceneManager = (function scope() {
                 cupList: list,
                 uiComponents: [new Entity.Button({
                     src: "",
-                    sprite: new Entity.Sprite({ resource: LoadManager.getAsset('btnStop'), color: 'rgba(255,0,0,1)' }),
-                    color: 'rgba(255,0,0,1)',
+                    sprite: new Entity.Sprite({ resource: null, color: 'rgba(255,0,0,0)' }),
+                    color: 'rgba(255,0,0,0)',
                     x: CONFIG.width - 50,
                     y: CONFIG.height - 50,
                     width: 100,
