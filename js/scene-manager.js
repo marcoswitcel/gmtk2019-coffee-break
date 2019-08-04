@@ -254,10 +254,28 @@ var SceneManager = (function scope() {
                     yStart: CONFIG.height* 0.09888888888,
                     width: CONFIG.width/2.0839363241678726,
                     height:  CONFIG.width/2.0839363241678726/5.592877377579927
-
                 });
 
-                GameRenderer.drawText("Créditos");
+                GameRenderer.drawText('Créditos', CONFIG.width * 0.11805555555, CONFIG.height* 0.34111111111,30);
+
+                GameRenderer.drawText('Programadores', CONFIG.width * 0.11805555555, CONFIG.height* 0.44111111111,20,'#0FEFDE');
+
+                GameRenderer.drawText('Gabriel Ullmann ', CONFIG.width * 0.11805555555, CONFIG.height* 0.52111111111,16);
+                GameRenderer.drawText('João Witcel', CONFIG.width * 0.11805555555, CONFIG.height* 0.59444444444,16);
+                GameRenderer.drawText('Rodrigo Freddo', CONFIG.width * 0.11805555555, CONFIG.height* 0.66777777777,16);
+
+                GameRenderer.drawText('Designers', CONFIG.width * 0.36875, CONFIG.height* 0.44111111111,20,'#FF7BAC');
+
+                GameRenderer.drawText('Fernanda Helenco', CONFIG.width * 0.36875, CONFIG.height* 0.52111111111,16);
+                GameRenderer.drawText('Joel almeida', CONFIG.width * 0.36875, CONFIG.height* 0.59444444444,16);
+
+                GameRenderer.drawImage({
+                    image: LoadManager.getAsset('xicarakodo'),
+                    xStart: CONFIG.width * 0.67638888888,
+                    yStart: CONFIG.height* 0.70666666666,
+                    width: CONFIG.width * 0.17430555555,
+                    height:  CONFIG.height * 0.26444444444 
+                });
             } break;
             default: {
                 console.log('como você chegou aqui?')
