@@ -4,7 +4,9 @@ var GameRenderer = (function scope() {
         if (obj.update) {
             obj.update();
         }
-        if (obj.sprite.resource) {
+        if (obj.render) {
+            obj.render();
+        } else if (obj.sprite.resource) {
             drawImage({
                 image: obj.sprite.resource,
                 xStart: obj.x - obj.width/2,

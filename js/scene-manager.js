@@ -9,6 +9,7 @@ var SceneManager = (function scope() {
     }
 
     var ACTUAL_SCENE = SCENES.LOADING;
+    var needToClearSceneContext = false;
 
     var SCENE_MANAGER_DATA = {};
     var LOCAL_SCENE_CONTEXT = null;
@@ -26,6 +27,19 @@ var SceneManager = (function scope() {
                 }),
                 x: (CONFIG.width/2) - (CONFIG.width * 0.02034722222222222 / 2),
                 y: CONFIG.height/2 - 3,
+                /**
+                 * Valores da razão do svg em relação a width de 1440
+                 */
+                width: CONFIG.width * 0.02034722222222222,
+                height: CONFIG.width * 0.02034722222222222 * 8.84914675767918
+            });
+            var coffeStream2 = new Entity.Renderizable({
+                sprite: new Entity.Sprite({
+                    resource: LoadManager.getAsset('cafe-saindo'),
+                    color: '#fff'
+                }),
+                x: (CONFIG.width/2) - (CONFIG.width * 0.02034722222222222 / 2),
+                y: CONFIG.height/2 + CONFIG.width * 0.02034722222222222 * 8.84914675767918/3,
                 /**
                  * Valores da razão do svg em relação a width de 1440
                  */
@@ -59,6 +73,7 @@ var SceneManager = (function scope() {
                     })
                 ],
                 coffeStream: coffeStream,
+                coffeStream2: coffeStream2,
                 cookie: cookie,
                 cupsScore: 0
             };
@@ -86,10 +101,18 @@ var SceneManager = (function scope() {
             145,
             167
         );
-        GameRenderer.drawEntity(LOCAL_SCENE_CONTEXT.coffeStream);
+        GameRenderer.drawEntities([
+            LOCAL_SCENE_CONTEXT.coffeStream,
+            LOCAL_SCENE_CONTEXT.coffeStream2
+        ]);
         GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.cupList);
         GameRenderer.drawEntity(LOCAL_SCENE_CONTEXT.cookie);
         GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.uiComponents);
+        /**
+         * Listras roxas
+         */
+        GameRenderer.drawRect({ color: '#5C144F', xStart: CONFIG.width * 0.04791666666666667, yStart: 0, width: CONFIG.width * 0.041666666666666664, height: CONFIG.height});
+        GameRenderer.drawRect({ color: '#5C144F', xStart: CONFIG.width * 0.9013888888888889, yStart: 0, width: CONFIG.width * 0.041666666666666664, height: CONFIG.height});
         GameLogic.checkIfNeedMoreCupsAndGiveIt(LOCAL_SCENE_CONTEXT.cupList);
     };
     /*
@@ -152,7 +175,14 @@ var SceneManager = (function scope() {
     |  método usado para mudar as cenas
     | ------------------------------------------------------------------------
     */
-    var sceneLoop = function sceneLoop(scene) {        
+    var sceneLoop = function sceneLoop(scene) {
+        /**
+         * Se livra dos dados da tela anterior
+         */
+        if (needToClearSceneContext) {
+            LOCAL_SCENE_CONTEXT = null;
+            needToClearSceneContext = false;
+        }
         switch(ACTUAL_SCENE) {
             case SCENES.LOADING: {
                 /**
@@ -169,7 +199,7 @@ var SceneManager = (function scope() {
                 );
                 GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
                 /**
-                 * Loading
+                 * Logo
                  */
                 GameRenderer.drawImage({
                     image: LoadManager.getAsset('logo'),
@@ -179,6 +209,36 @@ var SceneManager = (function scope() {
                     height:  CONFIG.width/2.0839363241678726/5.592877377579927
 
                 });
+                if (!LOCAL_SCENE_CONTEXT) {
+                    
+                    var button1 = new Entity.UIButton({
+                        color: '#FF7BAC',
+                        colorHover: '#5C144F',
+                        shadowColor: '#0FEFDE',
+                        text: 'Play',
+                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
+                        y: CONFIG.height * 0.45,
+                        width: CONFIG.width * 0.25219444444444444,
+                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                        sceneToGo: SCENES.GAME_SCENE
+                    });
+                    var button2 = new Entity.UIButton({
+                        color: '#FF7BAC',
+                        colorHover: '#5C144F',
+                        shadowColor: '#0FEFDE',
+                        text: 'Credits',
+                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
+                        y: CONFIG.height * 0.63,
+                        width: CONFIG.width * 0.25219444444444444,
+                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                        sceneToGo: SCENES.CREDIT_SCREEN
+                    });
+
+                    LOCAL_SCENE_CONTEXT = {
+                        buttons: [ button1, button2 ]
+                    };
+                }
+                GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
             } break;
             case SCENES.GAME_SCENE: {
                 gameScene();
@@ -204,6 +264,9 @@ var SceneManager = (function scope() {
     | ------------------------------------------------------------------------
     */
     var changeScene = function changeScene(scene) {
+        if (scene != ACTUAL_SCENE) {
+            needToClearSceneContext = true;
+        }
         ACTUAL_SCENE = scene;
     };
     /**

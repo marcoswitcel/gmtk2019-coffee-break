@@ -87,6 +87,16 @@ window.cupManager = (function() {
         return false;
     }
 
+    var randomCupSprite = function() {
+        return [
+            'xicara1',
+            'xicara2',
+            'xicara3',
+            'xicara4',
+            'cuia'
+        ][Math.floor(Math.random()*5)]
+    };
+
     function generateObjects(wave) {
         //var wave = new GameWave(1, 5);
         if (wave.getSize() == 0) {
@@ -102,7 +112,7 @@ window.cupManager = (function() {
             type = generateType(wave.getCupRatio());
             var sprite = new Entity.Sprite({
                 resource: LoadManager.getAsset(
-                    (type) ? 'xicara3' : 'sapatenis'
+                    (type) ? randomCupSprite() : 'sapatenis'
                 ),
                 color: '#00ff00'
             });

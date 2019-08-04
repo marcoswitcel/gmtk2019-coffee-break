@@ -34,6 +34,52 @@ var Entity = (function scope() {
             this.sprite.color = this.color;
         }
     }
+    var UIButton = function UIButtonEntity(obj) {
+        this.sprite = new Entity.Sprite({ resource: null, color: obj.color})
+        this.color = obj.color;
+        this.colorHover = obj.colorHover;
+        this.shadowColor = obj.shadowColor;
+        this.x = obj.x;
+        this.y = obj.y;
+        this.text = obj.text;
+        this.width = obj.width;
+        this.height = obj.height;
+        this.sceneToGo = obj.sceneToGo;
+        this.hover = false;
+    };
+    UIButton.prototype.update = function() {
+        var mouseData = Event.getMousePos();
+        if (mouseData.x >= this.x && mouseData.x <= this.x + this.width &&
+            mouseData.y >= this.y && mouseData.y <= this.y + this.height) {
+                if (mouseData.clicked) {
+                    SceneManager.changeScene(this.sceneToGo)
+                }
+            this.hover = true;
+        } else {
+            this.hover = false;
+        }
+    }
+    UIButton.prototype.render = function() {
+        /**
+         * Sombra e e bloco principal
+         */
+        GameRenderer.drawRect({
+            color: this.shadowColor,
+            xStart: this.x + 0.1326530612244898*this.height,
+            yStart: this.y + 0.1326530612244898*this.height,
+            width: this.width,
+            height: this.height
+        });
+        GameRenderer.drawRect({
+            color: this.hover ? this.colorHover : this.color,
+            xStart: this.x,
+            yStart: this.y,
+            width: this.width,
+            height: this.height
+        });
+        var fontSize = 20;
+        GameRenderer.drawText(this.text, this.x + this.width/2 - 20, this.y + this.height/2 + fontSize/2, fontSize);
+    };
     /*
     | ------------
     |  OBJECTS (usados para os sapatos e xícaras)
@@ -67,7 +113,7 @@ var Entity = (function scope() {
     Object.prototype.updatePosition = function(increment) {
         if (!Object.prototype.upPoint) {
             Object.prototype.upPoint = CONFIG.width * 0.40;
-            Object.prototype.rightPoint = CONFIG.height * 0.69;
+            Object.prototype.rightPoint = CONFIG.height * 0.695;
             Object.prototype.downPoint = CONFIG.width * 0.57;
             Object.prototype.secondRightPoint = CONFIG.height * 0.87;
         }
@@ -134,6 +180,7 @@ var Entity = (function scope() {
         Sprite: Sprite,
         Button: Button,
         Renderizable: Renderizable,
-        AnimationSequence: AnimationSequence
+        AnimationSequence: AnimationSequence,
+        UIButton: UIButton
     }
 })();

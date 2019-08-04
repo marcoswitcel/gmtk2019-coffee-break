@@ -2,17 +2,18 @@ var Event = (function scope() {
 
 
     function triggerKeydown(event) {
-        if (event.keyCode == 32) {
-            if (!isRunning) {
-                isRunning = true;
-                return;
-            }
+        if (SceneManager.getScene() === 'GAME_SCENE' && event.keyCode == 32) {
             isRunning = false;
         }
     }
+    function triggerKeyUp(event) {
+        if (SceneManager.getScene() === 'GAME_SCENE' && event.keyCode == 32) {
+            isRunning = true;
+        }
+    }
     function triggerClick(event) {
-        if (SceneManager.getScene() !== 'LOADING') {
-            SceneManager.changeScene('GAME_SCENE');
+        if (SceneManager.getScene() === 'MENU') {
+            MOUSE.clicked = true;
         }
         var x = event.clientX;
         var y = event.clientY;
@@ -24,14 +25,25 @@ var Event = (function scope() {
             isRunning = false;
         }
     }
+    var MOUSE = { x: 0, y: 0, clicked: false};
+    var mousePos = function mousePos(event) {
+        MOUSE.x = event.clientX - CANVAS.offsetLeft;
+        MOUSE.y = event.clientY - CANVAS.offsetTop;
+    };
+    var getMousePos = function getMousePos() {
+        return {
+            x: MOUSE.x,
+            y: MOUSE.y,
+            clicked: MOUSE.clicked
+        }
+    };
+
+    window.addEventListener('keydown', triggerKeydown);
+    window.addEventListener('keyup', triggerKeyUp);
+    window.addEventListener('click', triggerClick);
+    document.querySelector("#canvas").addEventListener('mousemove', mousePos);
 
     return {
-        triggerKeydown: triggerKeydown,
-        triggerClick: triggerClick
+        getMousePos: getMousePos
     }
 })();
-
-
-
-window.addEventListener('keydown', Event.triggerKeydown);
-window.addEventListener('click', Event.triggerClick);
