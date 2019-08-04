@@ -1,7 +1,7 @@
 "use strict";
 var CONFIG = {
-    width: 450 * 1.6/* aspect ratio */,
-    height: 450
+    width: 600 * 1.6/* aspect ratio */,
+    height: 600
 };
 
 var CANVAS = document.querySelector("#canvas");
