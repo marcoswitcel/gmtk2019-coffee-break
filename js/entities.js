@@ -78,7 +78,7 @@ var Entity = (function scope() {
             height: this.height
         });
         var fontSize = 20;
-        GameRenderer.drawText(this.text, this.x + this.width/2 - 20, this.y + this.height/2 + fontSize/2, fontSize);
+        GameRenderer.drawText(this.text, this.x + this.width/2 - (this.text.length * 4), this.y + this.height/2 + fontSize*0.4, fontSize);
     };
     /*
     | ------------

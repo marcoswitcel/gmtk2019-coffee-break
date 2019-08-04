@@ -209,7 +209,26 @@ var GameLogic = (function() {
             var wave = new GameWave(1, 5, 0.8, 0.8, 0.1);
             var lista = window.cupManager.generateObjects(wave);
             for(var i = 0; i < lista.length; i++) {
-                list.push(lista[i]);
+                var sprite = new Entity.Sprite({
+                    resource: LoadManager.getAsset(
+                        (type) ? randomCupSprite() : 'sapatenis'
+                    ),
+                    color: '#00ff00'
+                });
+                var obj = new Entity.Object({
+                    sprite: sprite,
+                    id: generated,
+                    x: generated * -300,
+                    y: CONFIG.height * 0.87,
+                    width: type ? 40 : 40*2.169811320754717,
+                    height: type ? 50 : 40,
+                    /* função que define a aleatoriedade dos volumes */
+                    volMin: 35 + (Math.random() * 50),
+                    volMax: 100,
+                    currVol: 0,
+                    fillable: type
+                });
+                list.push(obj);
             }
             
         }

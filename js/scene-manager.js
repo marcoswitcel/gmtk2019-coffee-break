@@ -85,6 +85,9 @@ var SceneManager = (function scope() {
             SceneManager.listen('add-total-cup', function() {
                 if (LOCAL_SCENE_CONTEXT) {
                     LOCAL_SCENE_CONTEXT.totalCups++;
+                    if (LOCAL_SCENE_CONTEXT.totalCups % 15) {
+                        FLOW_SPEED *= 1.1;
+                    }
                 }
             });
         }
