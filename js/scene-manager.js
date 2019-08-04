@@ -74,11 +74,17 @@ var SceneManager = (function scope() {
                 coffeStream: coffeStream,
                 coffeStream2: coffeStream2,
                 cookie: cookie,
-                cupsScore: 0
+                cupsScore: 0,
+                totalCups: 0 
             };
-            SceneManager.listen('add-cup', function() {
+            SceneManager.listen('add-cup-filled', function() {
                 if (LOCAL_SCENE_CONTEXT) {
                     LOCAL_SCENE_CONTEXT.cupsScore++;
+                }
+            });
+            SceneManager.listen('add-total-cup', function() {
+                if (LOCAL_SCENE_CONTEXT) {
+                    LOCAL_SCENE_CONTEXT.totalCups++;
                 }
             });
         }

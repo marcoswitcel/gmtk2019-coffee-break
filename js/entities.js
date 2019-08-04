@@ -112,7 +112,8 @@ var Entity = (function scope() {
                 if (this.x > CONFIG.width*0.51) {
                     if (this.currVol > this.volMin) {
                         this._counted = true;
-                        SceneManager.emit('add-cup');
+                        SceneManager.emit('add-total-cup');
+                        SceneManager.emit('add-cup-filled');
                     } else {
                         SceneManager.changeScene('GAME_OVER');
                     }
@@ -120,18 +121,21 @@ var Entity = (function scope() {
                 
             }
         } 
+        if (!this.fillable && !isRunning && Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.020833333333333332) {
+            SceneManager.changeScene('GAME_OVER');
+        }
         if (this.fillable && typeof this.volMin !== 'undefined') {
             if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.15) {
-                /* Texto que informa o limite */
-                GameRenderer.drawText('Limit', this.x + 30, this.y - 5, '#fff', 'Arial');
-                /* Desenha linha branca que está abaixo do texto */
-                GameRenderer.drawRect({
-                    color: '#fff',
-                    xStart: this.x + 25,
-                    yStart: this.y + 5,
-                    width: 40,
-                    height: 2
-                });
+                // /* Texto que informa o limite */
+                // GameRenderer.drawText('Limit', this.x + 30, this.y - 5, '#fff', 'Arial');
+                // /* Desenha linha branca que está abaixo do texto */
+                // GameRenderer.drawRect({
+                //     color: '#fff',
+                //     xStart: this.x + 25,
+                //     yStart: this.y + 5,
+                //     width: 40,
+                //     height: 2
+                // });
                 /* Desenha linha que representa o volume atual */
                 var porcentagemEmPx = this.currVol/this.volMax * this.height;
                 GameRenderer.drawRect({
