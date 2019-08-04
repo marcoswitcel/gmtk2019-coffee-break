@@ -9,8 +9,8 @@ var GameRenderer = (function scope() {
         } else if (obj.sprite.resource) {
             drawImage({
                 image: obj.sprite.resource,
-                xStart: obj.x - obj.width/2,
-                yStart: obj.y - obj.height/2,
+                xStart: obj.x - obj.width / 2,
+                yStart: obj.y - obj.height / 2,
                 width: obj.width,
                 height: obj.height
             })
@@ -39,10 +39,10 @@ var GameRenderer = (function scope() {
         CTX.drawImage(obj.image, obj.xStart, obj.yStart, obj.width, obj.height);
     };
 
-    var drawText = function drawText(text, x, y, fontSize) {
+    var drawText = function drawText(text, x, y, fontSize, color) {
         fontSize = typeof fontSize !== 'undefined' ? fontSize : 24;
-        CTX.fillStyle ="#FFF"
-        CTX.font = fontSize+"px Arial";
+        CTX.fillStyle = color ? color : "#FFF";
+        CTX.font = fontSize + "px PixelOperator";
         CTX.fillText(text, x, y);
     };
 
@@ -61,7 +61,7 @@ var GameRenderer = (function scope() {
         clearRect: clearRect,
         drawRect: drawRect,
         drawImageBackground: drawImageBackground,
-        drawImage: drawImage, 
+        drawImage: drawImage,
         drawEntity: drawEntity,
         drawEntities: drawEntities,
         drawText: drawText
