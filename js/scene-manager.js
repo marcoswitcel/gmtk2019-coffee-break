@@ -182,6 +182,7 @@ var SceneManager = (function scope() {
         if (needToClearSceneContext) {
             LOCAL_SCENE_CONTEXT = null;
             needToClearSceneContext = false;
+            Event.resetClick();
         }
         switch(ACTUAL_SCENE) {
             case SCENES.LOADING: {
@@ -244,6 +245,43 @@ var SceneManager = (function scope() {
                 gameScene();
             } break;
             case SCENES.GAME_OVER: {
+                /**
+                 * imagem e máscara azul
+                 */
+                GameRenderer.drawImageBackground(
+                    LoadManager.getAsset('bg1')
+                );
+                GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
+                if (!LOCAL_SCENE_CONTEXT) {
+                    
+                    var button1 = new Entity.UIButton({
+                        color: '#FF7BAC',
+                        colorHover: '#5C144F',
+                        shadowColor: '#0FEFDE',
+                        text: 'Play',
+                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
+                        y: CONFIG.height * 0.45,
+                        width: CONFIG.width * 0.25219444444444444,
+                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                        sceneToGo: SCENES.GAME_SCENE
+                    });
+                    var button2 = new Entity.UIButton({
+                        color: '#FF7BAC',
+                        colorHover: '#5C144F',
+                        shadowColor: '#0FEFDE',
+                        text: 'Credits',
+                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
+                        y: CONFIG.height * 0.63,
+                        width: CONFIG.width * 0.25219444444444444,
+                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                        sceneToGo: SCENES.CREDIT_SCREEN
+                    });
+
+                    LOCAL_SCENE_CONTEXT = {
+                        buttons: [ button1, button2 ]
+                    };
+                }
+                GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
             } break;
             case SCENES.CREDIT_SCREEN: {
                 GameRenderer.drawImageBackground(document.querySelector('#loadingAsset'));
