@@ -314,6 +314,26 @@ var SceneManager = (function scope() {
                     width: CONFIG.width * 0.17430555555,
                     height:  CONFIG.height * 0.26444444444 
                 });
+
+                if (!LOCAL_SCENE_CONTEXT) {
+                    
+                    var button1 = new Entity.UIButton({
+                        color: '#FF7BAC',
+                        colorHover: '#5C144F',
+                        shadowColor: '#0FEFDE',
+                        text: 'Play',
+                        x: CONFIG.width * 0.11805555555,
+                        y: CONFIG.height * 0.76333333333,
+                        width: CONFIG.width * 0.25219444444444444,
+                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                        sceneToGo: SCENES.GAME_SCENE
+                    });
+
+                    LOCAL_SCENE_CONTEXT = {
+                        buttons: [ button1 ]
+                    };
+                }
+                GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
             } break;
             default: {
                 console.log('como você chegou aqui?')
