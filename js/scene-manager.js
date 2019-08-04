@@ -17,16 +17,16 @@ var SceneManager = (function scope() {
     var gameScene = function() {
 
         if (!LOCAL_SCENE_CONTEXT) {
-            
-            var wave = new GameWave(1, 5, 0.6, 0.8, 0.1);
+
+            var wave = new GameWave(1, 5, 0.8, 0.8, 0.1);
             var list = window.cupManager.generateObjects(wave);
             var coffeStream = new Entity.Renderizable({
                 sprite: new Entity.Sprite({
                     resource: LoadManager.getAsset('cafe-saindo'),
                     color: '#fff'
                 }),
-                x: (CONFIG.width/2) - (CONFIG.width * 0.02034722222222222 / 2),
-                y: CONFIG.height/2 - 3,
+                x: (CONFIG.width / 2) - (CONFIG.width * 0.02034722222222222 / 2),
+                y: CONFIG.height / 2 - 3,
                 /**
                  * Valores da razão do svg em relação a width de 1440
                  */
@@ -38,8 +38,8 @@ var SceneManager = (function scope() {
                     resource: LoadManager.getAsset('cafe-saindo'),
                     color: '#fff'
                 }),
-                x: (CONFIG.width/2) - (CONFIG.width * 0.02034722222222222 / 2),
-                y: CONFIG.height/2 + CONFIG.width * 0.02034722222222222 * 8.84914675767918/3,
+                x: (CONFIG.width / 2) - (CONFIG.width * 0.02034722222222222 / 2),
+                y: CONFIG.height / 2 + CONFIG.width * 0.02034722222222222 * 8.84914675767918 / 3,
                 /**
                  * Valores da razão do svg em relação a width de 1440
                  */
@@ -51,7 +51,7 @@ var SceneManager = (function scope() {
                     resource: LoadManager.getAsset('biscoito'),
                     color: '#fff'
                 }),
-                x: (CONFIG.width/2) - (CONFIG.width * 0.02034722222222222 / 2),
+                x: (CONFIG.width / 2) - (CONFIG.width * 0.02034722222222222 / 2),
                 y: CONFIG.height * 0.76,
                 /**
                  * Valores da razão do svg em relação a width de 1440
@@ -63,15 +63,14 @@ var SceneManager = (function scope() {
             LOCAL_SCENE_CONTEXT = {
                 cupList: list,
                 uiComponents: [new Entity.Button({
-                    src : "",
-                    sprite: new Entity.Sprite({ resource: null, color: 'rgba(255,0,0,1)'}),
+                    src: "",
+                    sprite: new Entity.Sprite({ resource: LoadManager.getAsset('btnStop'), color: 'rgba(255,0,0,1)' }),
                     color: 'rgba(255,0,0,1)',
                     x: CONFIG.width - 50,
                     y: CONFIG.height - 50,
-                    width: 50,
-                    height: 50
-                    })
-                ],
+                    width: 100,
+                    height: 100
+                })],
                 coffeStream: coffeStream,
                 coffeStream2: coffeStream2,
                 cookie: cookie,
@@ -107,13 +106,14 @@ var SceneManager = (function scope() {
         ]);
         GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.cupList);
         GameRenderer.drawEntity(LOCAL_SCENE_CONTEXT.cookie);
-        GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.uiComponents);
+
         /**
          * Listras roxas
          */
-        GameRenderer.drawRect({ color: '#5C144F', xStart: CONFIG.width * 0.04791666666666667, yStart: 0, width: CONFIG.width * 0.041666666666666664, height: CONFIG.height});
-        GameRenderer.drawRect({ color: '#5C144F', xStart: CONFIG.width * 0.9013888888888889, yStart: 0, width: CONFIG.width * 0.041666666666666664, height: CONFIG.height});
+        GameRenderer.drawRect({ color: '#5C144F', xStart: CONFIG.width * 0.04791666666666667, yStart: 0, width: CONFIG.width * 0.041666666666666664, height: CONFIG.height });
+        GameRenderer.drawRect({ color: '#5C144F', xStart: CONFIG.width * 0.9013888888888889, yStart: 0, width: CONFIG.width * 0.041666666666666664, height: CONFIG.height });
         GameLogic.checkIfNeedMoreCupsAndGiveIt(LOCAL_SCENE_CONTEXT.cupList);
+        GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.uiComponents);
     };
     /*
     |----------------
@@ -133,7 +133,7 @@ var SceneManager = (function scope() {
     | ------------------------------------------------------------------------
     */
     function init() {
-        
+
         /**
          * Requisita todos os assets necessários
          */
@@ -157,14 +157,15 @@ var SceneManager = (function scope() {
                 'assets/imgs/xicara3.svg',
                 'assets/imgs/xicara4.svg',
                 'assets/imgs/xicarakodo.svg',
+                'assets/imgs/btnStop.svg',
                 /* Logo */
                 'assets/logo.svg'
             ],
-            function () {
+            function() {
                 /**
                  * Callback que roda quando todos os assets forem baixados
                  */
-                SceneManager.changeScene(SCENES.GAME_OVER);
+                SceneManager.changeScene(SCENES.MENU);
             }
         );
         /* Inicia o loop do jogo */
@@ -184,61 +185,64 @@ var SceneManager = (function scope() {
             needToClearSceneContext = false;
             Event.resetClick();
         }
-        switch(ACTUAL_SCENE) {
-            case SCENES.LOADING: {
-                /**
-                 * A cena de load é só uma tela colorida por hora
-                 */
-                GameRenderer.drawImageBackground(document.querySelector('#loadingAsset'));
-            } break;
-            case SCENES.MENU: {
-                /**
-                 * Imagem de fundo e máscara 
-                 */
-                GameRenderer.drawImageBackground(
-                    LoadManager.getAsset('bg-menu')
-                );
-                GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
-                /**
-                 * Logo
-                 */
-                GameRenderer.drawImage({
-                    image: LoadManager.getAsset('logo'),
-                    xStart: CONFIG.width/2 - CONFIG.width/2.0839363241678726/2,
-                    yStart: CONFIG.height*0.32850940665701883 - CONFIG.width/2.0839363241678726/5.592877377579927/2,
-                    width: CONFIG.width/2.0839363241678726,
-                    height:  CONFIG.width/2.0839363241678726/5.592877377579927
-
-                });
-                if (!LOCAL_SCENE_CONTEXT) {
-                    
-                    var button1 = new Entity.UIButton({
-                        color: '#FF7BAC',
-                        colorHover: '#5C144F',
-                        shadowColor: '#0FEFDE',
-                        text: 'Play',
-                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
-                        y: CONFIG.height * 0.45,
-                        width: CONFIG.width * 0.25219444444444444,
-                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
-                        sceneToGo: SCENES.GAME_SCENE
-                    });
-                    var button2 = new Entity.UIButton({
-                        color: '#FF7BAC',
-                        colorHover: '#5C144F',
-                        shadowColor: '#0FEFDE',
-                        text: 'Credits',
-                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
-                        y: CONFIG.height * 0.63,
-                        width: CONFIG.width * 0.25219444444444444,
-                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
-                        sceneToGo: SCENES.CREDIT_SCREEN
-                    });
-
-                    LOCAL_SCENE_CONTEXT = {
-                        buttons: [ button1, button2 ]
-                    };
+        switch (ACTUAL_SCENE) {
+            case SCENES.LOADING:
+                {
+                    /**
+                     * A cena de load é só uma tela colorida por hora
+                     */
+                    GameRenderer.drawImageBackground(document.querySelector('#loadingAsset'));
                 }
+                break;
+            case SCENES.MENU:
+                {
+                    /**
+                     * Imagem de fundo e máscara 
+                     */
+                    GameRenderer.drawImageBackground(
+                        LoadManager.getAsset('bg-menu')
+                    );
+                    GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
+                    /**
+                     * Logo
+                     */
+                    GameRenderer.drawImage({
+                        image: LoadManager.getAsset('logo'),
+                        xStart: CONFIG.width / 2 - CONFIG.width / 2.0839363241678726 / 2,
+                        yStart: CONFIG.height * 0.32850940665701883 - CONFIG.width / 2.0839363241678726 / 5.592877377579927 / 2,
+                        width: CONFIG.width / 2.0839363241678726,
+                        height: CONFIG.width / 2.0839363241678726 / 5.592877377579927
+
+                    });
+                    if (!LOCAL_SCENE_CONTEXT) {
+
+                        var button1 = new Entity.UIButton({
+                            color: '#FF7BAC',
+                            colorHover: '#5C144F',
+                            shadowColor: '#0FEFDE',
+                            text: 'Play',
+                            x: CONFIG.width / 2 - (CONFIG.width * 0.25219444444444444) / 2,
+                            y: CONFIG.height * 0.45,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.GAME_SCENE
+                        });
+                        var button2 = new Entity.UIButton({
+                            color: '#FF7BAC',
+                            colorHover: '#5C144F',
+                            shadowColor: '#0FEFDE',
+                            text: 'Credits',
+                            x: CONFIG.width / 2 - (CONFIG.width * 0.25219444444444444) / 2,
+                            y: CONFIG.height * 0.63,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.CREDIT_SCREEN
+                        });
+
+                        LOCAL_SCENE_CONTEXT = {
+                            buttons: [ button1, button2 ]
+                        };
+                    }
                 GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
             } break;
             case SCENES.GAME_SCENE: {
@@ -287,67 +291,117 @@ var SceneManager = (function scope() {
                         sceneToGo: SCENES.CREDIT_SCREEN
                     });
 
-                    LOCAL_SCENE_CONTEXT = {
-                        buttons: [ button1, button2 ]
-                    };
+                        LOCAL_SCENE_CONTEXT = {
+                            buttons: [button1, button2]
+                        };
+                    }
+                    GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
                 }
-                GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
-            } break;
-            case SCENES.CREDIT_SCREEN: {
-                GameRenderer.drawImageBackground(document.querySelector('#loadingAsset'));
+                break;
+            case SCENES.GAME_SCENE:
+                {
+                    gameScene();
+                }
+                break;
+            case SCENES.GAME_OVER:
+                {
+                    /**
+                     * imagem e máscara azul
+                     */
+                    GameRenderer.drawImageBackground(
+                        LoadManager.getAsset('bg1')
+                    );
+                    GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
+                    if (!LOCAL_SCENE_CONTEXT) {
 
-                GameRenderer.drawImage({
-                    image: LoadManager.getAsset('logo'),
-                    xStart: CONFIG.width * 0.11805555555,
-                    yStart: CONFIG.height* 0.09888888888,
-                    width: CONFIG.width/2.0839363241678726,
-                    height:  CONFIG.width/2.0839363241678726/5.592877377579927
-                });
+                        var button1 = new Entity.UIButton({
+                            color: '#FF7BAC',
+                            colorHover: '#5C144F',
+                            shadowColor: '#0FEFDE',
+                            text: 'Play',
+                            x: CONFIG.width / 2 - (CONFIG.width * 0.25219444444444444) / 2,
+                            y: CONFIG.height * 0.45,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.GAME_SCENE
+                        });
+                        var button2 = new Entity.UIButton({
+                            color: '#FF7BAC',
+                            colorHover: '#5C144F',
+                            shadowColor: '#0FEFDE',
+                            text: 'Credits',
+                            x: CONFIG.width / 2 - (CONFIG.width * 0.25219444444444444) / 2,
+                            y: CONFIG.height * 0.63,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.CREDIT_SCREEN
+                        });
 
-                GameRenderer.drawText('Créditos', CONFIG.width * 0.11805555555, CONFIG.height* 0.34111111111,30);
+                        LOCAL_SCENE_CONTEXT = {
+                            buttons: [button1, button2]
+                        };
+                    }
+                    GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
+                }
+                break;
+            case SCENES.CREDIT_SCREEN:
+                {
+                    GameRenderer.drawImageBackground(document.querySelector('#loadingAsset'));
 
-                GameRenderer.drawText('Programadores', CONFIG.width * 0.11805555555, CONFIG.height* 0.44111111111,20,'#0FEFDE');
-
-                GameRenderer.drawText('Gabriel Ullmann ', CONFIG.width * 0.11805555555, CONFIG.height* 0.52111111111,16);
-                GameRenderer.drawText('João Witcel', CONFIG.width * 0.11805555555, CONFIG.height* 0.59444444444,16);
-                GameRenderer.drawText('Rodrigo Freddo', CONFIG.width * 0.11805555555, CONFIG.height* 0.66777777777,16);
-
-                GameRenderer.drawText('Designers', CONFIG.width * 0.36875, CONFIG.height* 0.44111111111,20,'#FF7BAC');
-
-                GameRenderer.drawText('Fernanda Helenco', CONFIG.width * 0.36875, CONFIG.height* 0.52111111111,16);
-                GameRenderer.drawText('Joel almeida', CONFIG.width * 0.36875, CONFIG.height* 0.59444444444,16);
-
-                GameRenderer.drawImage({
-                    image: LoadManager.getAsset('xicarakodo'),
-                    xStart: CONFIG.width * 0.67638888888,
-                    yStart: CONFIG.height* 0.70666666666,
-                    width: CONFIG.width * 0.17430555555,
-                    height:  CONFIG.height * 0.26444444444 
-                });
-
-                if (!LOCAL_SCENE_CONTEXT) {
-                    
-                    var button1 = new Entity.UIButton({
-                        color: '#FF7BAC',
-                        colorHover: '#5C144F',
-                        shadowColor: '#0FEFDE',
-                        text: 'Play',
-                        x: CONFIG.width * 0.11805555555,
-                        y: CONFIG.height * 0.76333333333,
-                        width: CONFIG.width * 0.25219444444444444,
-                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
-                        sceneToGo: SCENES.GAME_SCENE
+                    GameRenderer.drawImage({
+                        image: LoadManager.getAsset('logo'),
+                        xStart: CONFIG.width * 0.11805555555,
+                        yStart: CONFIG.height * 0.09888888888,
+                        width: CONFIG.width / 2.0839363241678726,
+                        height: CONFIG.width / 2.0839363241678726 / 5.592877377579927
                     });
 
-                    LOCAL_SCENE_CONTEXT = {
-                        buttons: [ button1 ]
-                    };
+                    GameRenderer.drawText('Créditos', CONFIG.width * 0.11805555555, CONFIG.height * 0.34111111111, 30);
+
+                    GameRenderer.drawText('Programadores', CONFIG.width * 0.11805555555, CONFIG.height * 0.44111111111, 20, '#0FEFDE');
+
+                    GameRenderer.drawText('Gabriel Ullmann ', CONFIG.width * 0.11805555555, CONFIG.height * 0.52111111111, 16);
+                    GameRenderer.drawText('João Witcel', CONFIG.width * 0.11805555555, CONFIG.height * 0.59444444444, 16);
+                    GameRenderer.drawText('Rodrigo Freddo', CONFIG.width * 0.11805555555, CONFIG.height * 0.66777777777, 16);
+
+                    GameRenderer.drawText('Designers', CONFIG.width * 0.36875, CONFIG.height * 0.44111111111, 20, '#FF7BAC');
+
+                    GameRenderer.drawText('Fernanda Helenco', CONFIG.width * 0.36875, CONFIG.height * 0.52111111111, 16);
+                    GameRenderer.drawText('Joel almeida', CONFIG.width * 0.36875, CONFIG.height * 0.59444444444, 16);
+
+                    GameRenderer.drawImage({
+                        image: LoadManager.getAsset('xicarakodo'),
+                        xStart: CONFIG.width * 0.67638888888,
+                        yStart: CONFIG.height * 0.70666666666,
+                        width: CONFIG.width * 0.17430555555,
+                        height: CONFIG.height * 0.26444444444
+                    });
+
+                    if (!LOCAL_SCENE_CONTEXT) {
+
+                        var button1 = new Entity.UIButton({
+                            color: '#FF7BAC',
+                            colorHover: '#5C144F',
+                            shadowColor: '#0FEFDE',
+                            text: 'Play',
+                            x: CONFIG.width * 0.11805555555,
+                            y: CONFIG.height * 0.76333333333,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.GAME_SCENE
+                        });
+
+                        LOCAL_SCENE_CONTEXT = {
+                            buttons: [button1]
+                        };
+                    }
+                    GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
                 }
-                GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
-            } break;
-            default: {
-                console.log('como você chegou aqui?')
-            }
+                break;
+            default:
+                {
+                    console.log('como você chegou aqui?')
+                }
         }
         /**
          * Reseta o clique

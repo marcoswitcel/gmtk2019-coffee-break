@@ -9,6 +9,7 @@ var CTX = CANVAS.getContext("2d");
 var FRAMES_PER_SECOND = 1000 / 600;
 var isRunning = true;
 var RAMP_VEL = 2;
+var FLOW_SPEED = 10;
 
 
 var main = function () {
