@@ -54,8 +54,9 @@ var SceneManager = (function scope() {
 
         menu: function() {
             
-            gameScene();
-        }
+           gameScene();
+        },
+        //gameScene: gameScene
     }
 })();
 
