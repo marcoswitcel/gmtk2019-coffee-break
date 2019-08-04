@@ -265,10 +265,10 @@ var SceneManager = (function scope() {
 
                 GameRenderer.drawImage({
                     image: LoadManager.getAsset('gameover'),
-                    xStart: CONFIG.width/2 - ((CONFIG.width * 0.393055555556) / 2),
+                    xStart: CONFIG.width/2 - ((CONFIG.width * 0.490972222222) / 2),
                     yStart: CONFIG.height * 0.32850940665701883 - CONFIG.width/2.0839363241678726/5.592877377579927/2,
-                    width: CONFIG.width * 0.39305555555,
-                    height:  CONFIG.height * 0.22
+                    width: CONFIG.width * 0.490972222222,
+                    height:  CONFIG.height * 0.36
 
                 });
 
@@ -317,7 +317,9 @@ var SceneManager = (function scope() {
                     GameRenderer.drawImageBackground(
                         LoadManager.getAsset('bg1')
                     );
+
                     GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
+
                     if (!LOCAL_SCENE_CONTEXT) {
 
                         var button1 = new Entity.UIButton({
