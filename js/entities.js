@@ -102,7 +102,7 @@ var Entity = (function scope() {
             this.updatePosition(RAMP_VEL);
         }
         if (this.fillable){
-            if (Math.abs(CONFIG.width*0.48 - this.x) < 15) {
+            if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.020833333333333332) {
                 // SceneManager.changeScene('GAME_OVER');
             }
             if (!this._counted) {
@@ -113,6 +113,18 @@ var Entity = (function scope() {
                 
             }
         } 
+        if (this.fillable && typeof this.volMin !== 'undefined') {
+            if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.15) {
+                GameRenderer.drawText('Limit', this.x + 30, this.y - 5, 15, 'Arial');
+                GameRenderer.drawRect({
+                    color: '#fff',
+                    xStart: this.x + 25,
+                    yStart: this.y + 5,
+                    width: 40,
+                    height: 2
+                });
+            }
+        }
     };
     /* Função re cuida da questão da linha */
     Object.prototype.updatePosition = function(increment) {
