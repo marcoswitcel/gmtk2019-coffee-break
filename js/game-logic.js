@@ -1,3 +1,4 @@
+/*TODO: passar funções matemática para um módulo utils */
 window.GameObject = function(name, minVol, maxVol, fillable) {
     name = name ? name : "";
     minVol = minVol ? minVol : 1;
@@ -9,40 +10,47 @@ window.GameObject = function(name, minVol, maxVol, fillable) {
     xPos = 0;
     yPos = 0;
 
-    function getMinVol(){
+    function getMinVol() {
         return minVol;
     }
-    function getMaxVol(){
+
+    function getMaxVol() {
         return maxVol;
     }
-    function getCurVol(){
+
+    function getCurVol() {
         return curVol;
     }
-    function isFillable(){
+
+    function isFillable() {
         return fillable;
     }
-    function getSprite(){
+
+    function getSprite() {
         return sprite;
     }
-    function setSprite(value){
+
+    function setSprite(value) {
         sprite = value;
     }
-    function setXPos(value){
+
+    function setXPos(value) {
         xPos = value;
     }
-    function setYPos(value){
+
+    function setYPos(value) {
         yPos = value;
     }
-    
+
     return {
-        getMinVol:getMinVol,
-        getMaxVol:getMaxVol,
-        getCurVol:getCurVol,
-        isFillable:isFillable,
-        getSprite:getSprite,
-        setSprite:setSprite,
-        setXPos:setXPos,
-        setYPos:setYPos
+        getMinVol: getMinVol,
+        getMaxVol: getMaxVol,
+        getCurVol: getCurVol,
+        isFillable: isFillable,
+        getSprite: getSprite,
+        setSprite: setSprite,
+        setXPos: setXPos,
+        setYPos: setYPos
     }
 }
 
@@ -53,40 +61,44 @@ window.GameWave = function(id, size, cupRatio, maxVolVar, minVolVar) {
     maxVolVar = maxVolVar ? maxVolVar : 0.5;
     minVolVar = minVolVar ? minVolVar : 0.5;
 
-    function getId(){
+    function getId() {
         return id;
     }
-    function getSize(){
+
+    function getSize() {
         return size;
     }
-    function getCupRatio(){
+
+    function getCupRatio() {
         return cupRatio;
     }
-    function getMaxVolVar(){
+
+    function getMaxVolVar() {
         return maxVolVar;
     }
-    function getMinVolVar(){
+
+    function getMinVolVar() {
         return minVolVar;
     }
 
     return {
-        getId:getId,
-        getSize:getSize,
-        getCupRatio:getCupRatio,
-        getMaxVolVar:getMaxVolVar,
-        getMinVolVar:getMinVolVar,
+        getId: getId,
+        getSize: getSize,
+        getCupRatio: getCupRatio,
+        getMaxVolVar: getMaxVolVar,
+        getMinVolVar: getMinVolVar,
 
     }
 
 }
 
-window.cupManager = (function () {
+window.cupManager = (function() {
 
-    function getRandom(max, min){
-        return Math.floor(Math.random() * (max - min)) + min; 
+    function getRandom(max, min) {
+        return Math.floor(Math.random() * (max - min)) + min;
     }
-    
-    function generateMaxVol(maxVolVar){
+
+    function generateMaxVol(maxVolVar) {
         // debugger;
         if (maxVolVar > 1) {
             maxVolVar = 1;
@@ -98,8 +110,8 @@ window.cupManager = (function () {
         return getRandom(1000 * maxVolVar, 100);
     }
 
-    function generateMinVol(mx, minVolVar){
-         
+    function generateMinVol(mx, minVolVar) {
+
         if (minVolVar > 1) {
             minVolVar = 1;
         }
@@ -114,10 +126,10 @@ window.cupManager = (function () {
         } else {
             return n;
         }
- 
+
     }
 
-    function generateType(ratio){
+    function generateType(ratio) {
         if (ratio > 1 || ratio < 0.1) {
             ratio = 0.5;
         }
@@ -125,12 +137,12 @@ window.cupManager = (function () {
         var n = getRandom(100, 1);
         if (n < limit) {
             return true; //if value is within limit, it's fillable
-        } 
-        
+        }
+
         return false;
     }
 
-    function generateObjects(wave){
+    function generateObjects(wave) {
         //var wave = new GameWave(1, 5);
         if (wave.getSize() == 0) {
             return [];
@@ -148,12 +160,12 @@ window.cupManager = (function () {
                 color: '#00ff00'
             });
             var obj = new Entity.Object({
-                sprite : sprite,
+                sprite: sprite,
                 id: generated,
-                x : 50 + (generated * 300) - wave.getSize() * 300,
-                y : 500,
-                width : 40,
-                height : 50,
+                x: 50 + (generated * 300) - wave.getSize() * 300,
+                y: 500,
+                width: 40,
+                height: 50,
                 volMin: min,
                 volMax: max,
                 currVol: 0,
@@ -165,13 +177,67 @@ window.cupManager = (function () {
         return list;
     }
 
-    function runTest(){
+    function runTest() {
         var wave = new GameWave(1, 15, 0.6, 0.8, 0.1);
         generateObjects(wave);
     }
 
     return {
-        generateObjects:generateObjects,
-        runTest:runTest
+        generateObjects: generateObjects,
+        runTest: runTest
     }
+})();
+
+window.pathManager = (function() {
+
+    function percentage(total, relative) {
+        return (relative * 100) / total;
+    }
+
+    /*Entradas:
+    posObj = objeto com atributos x e y (em px)
+    stepX/stepY = tamanho do avanço em pixels
+    
+    Saída: 
+    porcentagem atual em relação ao canvas e porcentagem no próximo passo
+    */
+    function getNextStep(posObj, stepX, stepY) {
+        var width = CTX.canvas.clientWidth;
+        var height = CTX.canvas.clientHeight;
+        var px, py;
+
+        px = percentage(width, posObj.x);
+        py = percentage(height, posObj.y);
+        pIncX = percentage(width, stepX);
+        pIncY = percentage(height, stepY);
+
+        return {
+            currentPX: px,
+            currentPY: py,
+            nextPX: px + pIncX,
+            nextPY: py + pIncY
+        }
+    }
+
+    /*Entradas:
+    Quantidade de objetos a serem desenhados antes da origem
+    Width de cada sprite (em px, aqui considerando que será igual pra todos)
+    Spacing desejado entre sprites (em px)
+
+    Saída:
+    Quantos porcento ANTES da boundary de origem do canvas o path deverá iniciar, pensando que os objetos irão ser incializados fora do canto esquerdo do canvas (ou seja, se a tela for de 1024px e o resultado for 100%, significa que os sprites deverão começar a -1024px da boundary da origem do eixo x)
+    */
+
+    function getStartPosition(qty, width, spacing) {
+        var preLength = (qty * width) + (qty * spacing);
+        var canvasWidth = CTX.canvas.clientWidth;
+        var perPre = percentage(canvasWidth, preLength);
+        return perPre;
+    }
+
+    return {
+        getStartPosition: getStartPosition,
+        getNextStep: getNextStep
+    }
+
 })();

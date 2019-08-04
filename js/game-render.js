@@ -1,6 +1,6 @@
 var GameRenderer = (function scope() {
 
-    var  drawEntity = function(obj) {
+    var drawEntity = function(obj) {
         obj.update();
         CTX.fillStyle = obj.sprite.color;
         CTX.fillRect(obj.x, obj.y, obj.width, obj.height);
@@ -12,11 +12,12 @@ var GameRenderer = (function scope() {
         CTX.fillRect(btn.x, btn.y, btn.width, btn.height);
     };
 
-    var  drawEntities = function(lista) {
-        for(var i = 0; i < lista.length; i++) {
+    var drawEntities = function(lista) {
+        for (var i = 0; i < lista.length; i++) {
             drawEntity(lista[i])
         }
     };
+
 
     return {
         renderScene: function(sceneStartFunction) {
