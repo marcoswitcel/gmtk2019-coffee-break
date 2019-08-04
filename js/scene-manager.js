@@ -75,7 +75,7 @@ var SceneManager = (function scope() {
                 coffeStream2: coffeStream2,
                 cookie: cookie,
                 cupsScore: 0,
-                totalCups: 0 
+                totalCups: 0
             };
             SceneManager.listen('add-cup-filled', function() {
                 if (LOCAL_SCENE_CONTEXT) {
@@ -106,8 +106,8 @@ var SceneManager = (function scope() {
          */
         GameRenderer.drawText(
             ("   " + LOCAL_SCENE_CONTEXT.cupsScore).slice(-4),
-            145,
-            167
+            CONFIG.width * 0.24,
+            CONFIG.height * 0.36
         );
         GameRenderer.drawEntities([
             LOCAL_SCENE_CONTEXT.coffeStream,
@@ -249,56 +249,60 @@ var SceneManager = (function scope() {
                         });
 
                         LOCAL_SCENE_CONTEXT = {
-                            buttons: [ button1, button2 ]
+                            buttons: [button1, button2]
                         };
                     }
-                GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
-            } break;
-            case SCENES.GAME_SCENE: {
-                gameScene();
-            } break;
-            case SCENES.GAME_OVER: {
-                /**
-                 * imagem e máscara azul
-                 */
-                GameRenderer.drawImageBackground(
-                    LoadManager.getAsset('bg1')
-                );
-                GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
+                    GameRenderer.drawEntities(LOCAL_SCENE_CONTEXT.buttons);
+                }
+                break;
+            case SCENES.GAME_SCENE:
+                {
+                    gameScene();
+                }
+                break;
+            case SCENES.GAME_OVER:
+                {
+                    /**
+                     * imagem e máscara azul
+                     */
+                    GameRenderer.drawImageBackground(
+                        LoadManager.getAsset('bg1')
+                    );
+                    GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
 
-                GameRenderer.drawImage({
-                    image: LoadManager.getAsset('gameover'),
-                    xStart: CONFIG.width/2 - ((CONFIG.width * 0.490972222222) / 2),
-                    yStart: CONFIG.height * 0.32850940665701883 - CONFIG.width/2.0839363241678726/5.592877377579927/2,
-                    width: CONFIG.width * 0.490972222222,
-                    height:  CONFIG.height * 0.36
+                    GameRenderer.drawImage({
+                        image: LoadManager.getAsset('gameover'),
+                        xStart: CONFIG.width / 2 - ((CONFIG.width * 0.490972222222) / 2),
+                        yStart: CONFIG.height * 0.32850940665701883 - CONFIG.width / 2.0839363241678726 / 5.592877377579927 / 2,
+                        width: CONFIG.width * 0.490972222222,
+                        height: CONFIG.height * 0.36
 
-                });
-
-                if (!LOCAL_SCENE_CONTEXT) {
-                    
-                    var button1 = new Entity.UIButton({
-                        color: '#1A3355',
-                        colorHover: '#5C144F',
-                        shadowColor: '#FF7BAC',
-                        text: 'Play',
-                        x: CONFIG.width * 0.11805555555,
-                        y: CONFIG.height * 0.76333333333,
-                        width: CONFIG.width * 0.25219444444444444,
-                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
-                        sceneToGo: SCENES.GAME_SCENE
                     });
-                    var button2 = new Entity.UIButton({
-                        color: '#1A3355',
-                        colorHover: '#5C144F',
-                        shadowColor: '#FF7BAC',
-                        text: 'Credits',
-                        x: CONFIG.width * 0.42875,
-                        y: CONFIG.height * 0.76333333333,
-                        width: CONFIG.width * 0.25219444444444444,
-                        height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
-                        sceneToGo: SCENES.CREDIT_SCREEN
-                    });
+
+                    if (!LOCAL_SCENE_CONTEXT) {
+
+                        var button1 = new Entity.UIButton({
+                            color: '#1A3355',
+                            colorHover: '#5C144F',
+                            shadowColor: '#FF7BAC',
+                            text: 'Play',
+                            x: CONFIG.width * 0.11805555555,
+                            y: CONFIG.height * 0.76333333333,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.GAME_SCENE
+                        });
+                        var button2 = new Entity.UIButton({
+                            color: '#1A3355',
+                            colorHover: '#5C144F',
+                            shadowColor: '#FF7BAC',
+                            text: 'Credits',
+                            x: CONFIG.width * 0.42875,
+                            y: CONFIG.height * 0.76333333333,
+                            width: CONFIG.width * 0.25219444444444444,
+                            height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
+                            sceneToGo: SCENES.CREDIT_SCREEN
+                        });
 
                         LOCAL_SCENE_CONTEXT = {
                             buttons: [button1, button2]
@@ -378,7 +382,7 @@ var SceneManager = (function scope() {
                     GameRenderer.drawText('Designers', CONFIG.width * 0.36875, CONFIG.height * 0.44111111111, 20, '#FF7BAC');
 
                     GameRenderer.drawText('Fernanda Helenco', CONFIG.width * 0.36875, CONFIG.height * 0.52111111111, 16);
-                    GameRenderer.drawText('Joel almeida', CONFIG.width * 0.36875, CONFIG.height * 0.59444444444, 16);
+                    GameRenderer.drawText('Joel Almeida', CONFIG.width * 0.36875, CONFIG.height * 0.59444444444, 16);
 
                     GameRenderer.drawImage({
                         image: LoadManager.getAsset('xicarakodo'),
