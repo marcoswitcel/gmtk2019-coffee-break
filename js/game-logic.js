@@ -138,7 +138,7 @@ window.cupManager = (function () {
         var obj;
         var generated = 0;
         var list = [];
-        var max, min, ration;
+        var max, min;
         while (generated < wave.getSize()) {
             max = generateMaxVol(wave.getMaxVolVar());
             min = generateMinVol(max, wave.getMinVolVar());
