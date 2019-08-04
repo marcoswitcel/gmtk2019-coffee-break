@@ -104,24 +104,38 @@ var Entity = (function scope() {
         if (this.fillable){
             if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.020833333333333332) {
                 this.currVol += FLOW_SPEED;
+                if (this.currVol >= this.volMax) {
+                    SceneManager.changeScene('GAME_OVER');
+                }
             }
             if (!this._counted) {
                 if (this.x > CONFIG.width*0.51) {
                     this._counted = true;
                     SceneManager.emit('add-cup');
-                    console.log(this.currVol >= this.volMin);
                 }
                 
             }
         } 
         if (this.fillable && typeof this.volMin !== 'undefined') {
             if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.15) {
+                /* Texto que informa o limite */
                 GameRenderer.drawText('Limit', this.x + 30, this.y - 5, 15, 'Arial');
+                /* Desenha linha branca que está abaixo do texto */
                 GameRenderer.drawRect({
                     color: '#fff',
                     xStart: this.x + 25,
                     yStart: this.y + 5,
                     width: 40,
+                    height: 2
+                });
+                /* Desenha linha que representa o volume atual */
+                var porcentagemEmPx = this.currVol/this.volMax * this.height;
+
+                GameRenderer.drawRect({
+                    color: '#25E845',
+                    xStart: this.x - this.width - 5,
+                    yStart: this.y + this.height/2 - porcentagemEmPx,
+                    width: 22,
                     height: 2
                 });
             }
