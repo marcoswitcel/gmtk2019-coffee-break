@@ -110,8 +110,12 @@ var Entity = (function scope() {
             }
             if (!this._counted) {
                 if (this.x > CONFIG.width*0.51) {
-                    this._counted = true;
-                    SceneManager.emit('add-cup');
+                    if (this.currVol > this.volMin) {
+                        this._counted = true;
+                        SceneManager.emit('add-cup');
+                    } else {
+                        SceneManager.changeScene('GAME_OVER');
+                    }
                 }
                 
             }
@@ -119,7 +123,7 @@ var Entity = (function scope() {
         if (this.fillable && typeof this.volMin !== 'undefined') {
             if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.15) {
                 /* Texto que informa o limite */
-                GameRenderer.drawText('Limit', this.x + 30, this.y - 5, 15, 'Arial');
+                GameRenderer.drawText('Limit', this.x + 30, this.y - 5, '#fff', 'Arial');
                 /* Desenha linha branca que está abaixo do texto */
                 GameRenderer.drawRect({
                     color: '#fff',
@@ -130,11 +134,19 @@ var Entity = (function scope() {
                 });
                 /* Desenha linha que representa o volume atual */
                 var porcentagemEmPx = this.currVol/this.volMax * this.height;
-
                 GameRenderer.drawRect({
                     color: '#25E845',
                     xStart: this.x - this.width - 5,
                     yStart: this.y + this.height/2 - porcentagemEmPx,
+                    width: 22,
+                    height: 2
+                });
+                /* Desenha linha que representa o volume mínimo */
+                var porcentagemMinVolEmPx = this.volMin/this.volMax * this.height;
+                GameRenderer.drawRect({
+                    color: '#306EFF',
+                    xStart: this.x - this.width - 5,
+                    yStart: this.y + this.height/2 - porcentagemMinVolEmPx,
                     width: 22,
                     height: 2
                 });
