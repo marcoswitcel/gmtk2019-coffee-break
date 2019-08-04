@@ -1,50 +1,3 @@
-window.GameObject = function(name, minVol, maxVol, fillable) {
-    name = name ? name : "";
-    minVol = minVol ? minVol : 1;
-    maxVol = maxVol ? maxVol : 99;
-    curVol = 0;
-    // debugger;
-    fillable = typeof(fillable) != 'undefined' ? fillable : true;
-    sprite = null;
-    xPos = 0;
-    yPos = 0;
-
-    function getMinVol(){
-        return minVol;
-    }
-    function getMaxVol(){
-        return maxVol;
-    }
-    function getCurVol(){
-        return curVol;
-    }
-    function isFillable(){
-        return fillable;
-    }
-    function getSprite(){
-        return sprite;
-    }
-    function setSprite(value){
-        sprite = value;
-    }
-    function setXPos(value){
-        xPos = value;
-    }
-    function setYPos(value){
-        yPos = value;
-    }
-    
-    return {
-        getMinVol:getMinVol,
-        getMaxVol:getMaxVol,
-        getCurVol:getCurVol,
-        isFillable:isFillable,
-        getSprite:getSprite,
-        setSprite:setSprite,
-        setXPos:setXPos,
-        setYPos:setYPos
-    }
-}
 
 window.GameWave = function(id, size, cupRatio, maxVolVar, minVolVar) {
     id = id ? id : 0;
@@ -173,5 +126,16 @@ window.cupManager = (function () {
     return {
         generateObjects:generateObjects,
         runTest:runTest
+    }
+})();
+
+
+
+var GameLogic = (function() {
+    var checkIfNeedMoreCupsAndGiveIt = function checkIfNeedMoreCupsAndGiveIt(list) {
+        
+    };
+    return {
+        checkIfNeedMoreCupsAndGiveIt: checkIfNeedMoreCupsAndGiveIt
     }
 })();

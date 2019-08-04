@@ -15,10 +15,7 @@ var SceneManager = (function scope() {
     var gameScene = function() {
 
         if (!SCENE_CONTEXT) {
-
-
-
-            var wave = new GameWave(1, 15, 0.6, 0.8, 0.1);
+            var wave = new GameWave(1, 5, 0.6, 0.8, 0.1);
             var list = window.cupManager.generateObjects(wave);
 
             SCENE_CONTEXT = {
@@ -28,9 +25,14 @@ var SceneManager = (function scope() {
 
         GameRenderer.clearRect('#FFF');
 
-       
+        var ref = LoadManager.getAssetsRef();
+        
+        GameRenderer.drawImage(ref[0]);
+        
 
-        GameRenderer.drawnEntities(SCENE_CONTEXT.cupList);
+        GameRenderer.drawEntities(SCENE_CONTEXT.cupList);
+        GameLogic.checkIfNeedMoreCupsAndGiveIt(SCENE_CONTEXT.list);
+
 
         setTimeout(gameScene, 1000/60);
     };
@@ -45,7 +47,11 @@ var SceneManager = (function scope() {
             GameRenderer.clearRect('#00ff00')
 
             LoadManager.loadAllAssets({
-                    assetsResources: ["assets/teste2.png","assets/teste.jpg"]
+                    assetsResources: [
+                        'assets/bg.svg',
+                        'assets/biscoito.svg',
+                        'assets/fundo.svg'
+                    ]
                 },
                 SceneManager.menu
             );
