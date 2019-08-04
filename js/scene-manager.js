@@ -18,7 +18,7 @@ var SceneManager = (function scope() {
 
         if (!LOCAL_SCENE_CONTEXT) {
             
-            var wave = new GameWave(1, 5, 0.6, 0.8, 0.1);
+            var wave = new GameWave(1, 5, 0.8, 0.8, 0.1);
             var list = window.cupManager.generateObjects(wave);
             var coffeStream = new Entity.Renderizable({
                 sprite: new Entity.Sprite({

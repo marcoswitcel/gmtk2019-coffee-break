@@ -103,12 +103,13 @@ var Entity = (function scope() {
         }
         if (this.fillable){
             if (Math.abs(CONFIG.width*0.48 - this.x) < CONFIG.width * 0.020833333333333332) {
-                // SceneManager.changeScene('GAME_OVER');
+                this.currVol += FLOW_SPEED;
             }
             if (!this._counted) {
                 if (this.x > CONFIG.width*0.51) {
                     this._counted = true;
                     SceneManager.emit('add-cup');
+                    console.log(this.currVol >= this.volMin);
                 }
                 
             }
