@@ -99,15 +99,20 @@ var Entity = (function scope() {
     
     Object.prototype.update = function() {
         if (window.isRunning) {
-            this.updatePosition(2);
+            this.updatePosition(RAMP_VEL);
         }
-        if (this.fillable && !this._counted) {
-            if (this.x > CONFIG.width/2) {
-                this._counted = true;
-                SceneManager.emit('add-cup');
+        if (this.fillable){
+            if (Math.abs(CONFIG.width*0.48 - this.x) < 15) {
+                console.log('acertou miseravi')
             }
-            
-        }
+            if (!this._counted) {
+                if (this.x > CONFIG.width*0.51) {
+                    this._counted = true;
+                    SceneManager.emit('add-cup');
+                }
+                
+            }
+        } 
     };
     /* Função re cuida da questão da linha */
     Object.prototype.updatePosition = function(increment) {
