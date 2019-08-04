@@ -247,6 +247,17 @@ var SceneManager = (function scope() {
             } break;
             case SCENES.CREDIT_SCREEN: {
                 GameRenderer.drawImageBackground(document.querySelector('#loadingAsset'));
+
+                GameRenderer.drawImage({
+                    image: LoadManager.getAsset('logo'),
+                    xStart: CONFIG.width * 0.11805555555,
+                    yStart: CONFIG.height* 0.09888888888,
+                    width: CONFIG.width/2.0839363241678726,
+                    height:  CONFIG.width/2.0839363241678726/5.592877377579927
+
+                });
+
+                GameRenderer.drawText("Créditos");
             } break;
             default: {
                 console.log('como você chegou aqui?')
