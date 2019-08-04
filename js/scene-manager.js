@@ -32,8 +32,15 @@ var SceneManager = (function scope() {
 
         GameRenderer.drawEntities(SCENE_CONTEXT.cupList);
         GameLogic.checkIfNeedMoreCupsAndGiveIt(SCENE_CONTEXT.list);
-
-
+        GameRenderer.drawButton(new Entity.Button({
+            src : "",
+            color: "rgba(255,0,0,1)",
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100
+        }));
+        
         setTimeout(gameScene, 1000/60);
     };
 
@@ -59,8 +66,9 @@ var SceneManager = (function scope() {
 
         menu: function() {
             
-            gameScene();
-        } 
+           gameScene();
+        },
+        //gameScene: gameScene
     }
 })();
 
@@ -72,6 +80,15 @@ var Entity = (function scope() {
     var Sprite = function SpriteEntity(obj) {
         this.src = obj.src;
         this.color = obj.color;
+    };
+
+    var Button = function ButtonEntity(obj) {
+        this.src = obj.src;
+        this.color = obj.color;
+        this.x = obj.x;
+        this.y = obj.y;
+        this.width = obj.width;
+        this.height = obj.height;
     };
 
     var Object = function ObjectEntity(obj) {
@@ -94,9 +111,16 @@ var Entity = (function scope() {
         }
     }
 
+    Button.prototype.update = function() {
+        if (!window.isRunning) {
+            this.color = "rgba(0,0,0,1)";
+        }
+    }
+
 
     return {
         Object: Object,
-        Sprite: Sprite
+        Sprite: Sprite,
+        Button:Button
     }
 })();
