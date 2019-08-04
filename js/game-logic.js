@@ -123,8 +123,9 @@ window.cupManager = (function() {
                 y: CONFIG.height * 0.87,
                 width: type ? 40 : 40*2.169811320754717,
                 height: type ? 50 : 40,
-                volMin: min,
-                volMax: max,
+                /* função que define a aleatoriedade dos volumes */
+                volMin: 35 + (Math.random() * 50),
+                volMax: 100,
                 currVol: 0,
                 fillable: type
             });
@@ -205,7 +206,7 @@ var GameLogic = (function() {
         var lastItem = list[list.length -1];
 
         if (lastItem.x > -150) {
-            var wave = new GameWave(1, 5, 0.6, 0.8, 0.1);
+            var wave = new GameWave(1, 5, 0.8, 0.8, 0.1);
             var lista = window.cupManager.generateObjects(wave);
             for(var i = 0; i < lista.length; i++) {
                 list.push(lista[i]);
