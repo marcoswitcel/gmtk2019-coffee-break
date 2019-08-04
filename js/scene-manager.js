@@ -164,7 +164,7 @@ var SceneManager = (function scope() {
                 /**
                  * Callback que roda quando todos os assets forem baixados
                  */
-                SceneManager.changeScene(SCENES.MENU);
+                SceneManager.changeScene(SCENES.GAME_OVER);
             }
         );
         /* Inicia o loop do jogo */
@@ -252,26 +252,36 @@ var SceneManager = (function scope() {
                     LoadManager.getAsset('bg1')
                 );
                 GameRenderer.clearRect('rgba(48, 110,225, 0.35)');
+
+                GameRenderer.drawImage({
+                    image: LoadManager.getAsset('gameover'),
+                    xStart: CONFIG.width/2 - ((CONFIG.width * 0.393055555556) / 2),
+                    yStart: CONFIG.height * 0.32850940665701883 - CONFIG.width/2.0839363241678726/5.592877377579927/2,
+                    width: CONFIG.width * 0.39305555555,
+                    height:  CONFIG.height * 0.22
+
+                });
+
                 if (!LOCAL_SCENE_CONTEXT) {
                     
                     var button1 = new Entity.UIButton({
-                        color: '#FF7BAC',
+                        color: '#1A3355',
                         colorHover: '#5C144F',
-                        shadowColor: '#0FEFDE',
+                        shadowColor: '#FF7BAC',
                         text: 'Play',
-                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
-                        y: CONFIG.height * 0.45,
+                        x: CONFIG.width * 0.11805555555,
+                        y: CONFIG.height * 0.76333333333,
                         width: CONFIG.width * 0.25219444444444444,
                         height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
                         sceneToGo: SCENES.GAME_SCENE
                     });
                     var button2 = new Entity.UIButton({
-                        color: '#FF7BAC',
+                        color: '#1A3355',
                         colorHover: '#5C144F',
-                        shadowColor: '#0FEFDE',
+                        shadowColor: '#FF7BAC',
                         text: 'Credits',
-                        x: CONFIG.width/2 - (CONFIG.width * 0.25219444444444444)/2,
-                        y: CONFIG.height * 0.63,
+                        x: CONFIG.width * 0.42875,
+                        y: CONFIG.height * 0.76333333333,
                         width: CONFIG.width * 0.25219444444444444,
                         height: CONFIG.width * 0.25219444444444444 * 0.27180856922568564,
                         sceneToGo: SCENES.CREDIT_SCREEN
