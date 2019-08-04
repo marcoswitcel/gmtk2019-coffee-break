@@ -12,9 +12,9 @@ var Event = (function scope() {
         }
     }
     function triggerClick(event) {
-        if (SceneManager.getScene() === 'MENU') {
-            MOUSE.clicked = true;
-        }
+        
+        MOUSE.clicked = true;
+        
         var x = event.clientX;
         var y = event.clientY;
         if ((x >= 268 && x <= 363) && (y >= 0 && y <= 100)) {

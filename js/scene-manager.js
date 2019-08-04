@@ -319,6 +319,10 @@ var SceneManager = (function scope() {
                 console.log('como você chegou aqui?')
             }
         }
+        /**
+         * Reseta o clique
+         */
+        Event.resetClick();
 
         /**
          * Animation frame
