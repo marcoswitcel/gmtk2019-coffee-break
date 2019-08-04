@@ -165,7 +165,7 @@ var SceneManager = (function scope() {
                 /**
                  * Callback que roda quando todos os assets forem baixados
                  */
-                SceneManager.changeScene(SCENES.GAME_OVER);
+                SceneManager.changeScene(SCENES.MENU);
             }
         );
         /* Inicia o loop do jogo */
